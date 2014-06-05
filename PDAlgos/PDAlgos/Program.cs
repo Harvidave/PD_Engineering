@@ -11,6 +11,7 @@ namespace PDAlgos
         static void Main(string[] args)
         {
             Console.WriteLine("Hello PD Algos");
+            Console.WriteLine("Hello Risong");
         }
     }
 }
