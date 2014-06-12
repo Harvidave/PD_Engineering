@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Kriging.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        //var t = [80, 40, 30, 20, 10];
+        //var x = [1, 4, 2, 3, 0];
+        //var y = [0, 1, 2, 3, 4];
+        //var model = "exponential";
+        //var sigma2 = 0, alpha = 100;
+        //var variogram = kriging.train(t, x, y, model, sigma2, alpha);
+        //var predictRes = kriging.predict(1, 1, variogram);
+
+        var i, j;
+
+        function ResetClick() {
+
+            for (i = 0; i < 5; i++) {
+                for (j = 0; j < 5; j++) {
+                    document.getElementById(i.toString() + j.toString()).value = "";
+                }
+            }
+            document.getElementById("10").value = "80";
+            document.getElementById("41").value = "40";
+            document.getElementById("22").value = "30";
+            document.getElementById("33").value = "20";
+            document.getElementById("04").value = "10";
+        }
+
+        function CalculateClick() {
+            var t = [];
+            var y = [];
+            var x = [];
+            if (document.getElementById("00").value) {
+                t.push(parseFloat(document.getElementById("00").value));
+                x.push(0);
+                y.push(0);
+            }
+            if (document.getElementById("10").value) {
+                t.push(parseFloat(document.getElementById("10").value));
+                x.push(1);
+                y.push(0);
+            }
+            if (document.getElementById("20").value) {
+                t.push(parseFloat(document.getElementById("20").value));
+                x.push(2);
+                y.push(0);
+            }
+            if (document.getElementById("30").value) {
+                t.push(parseFloat(document.getElementById("30").value));
+                x.push(3);
+                y.push(0);
+            }
+            if (document.getElementById("40").value) {
+                t.push(parseFloat(document.getElementById("40").value));
+                x.push(4);
+                y.push(0);
+            }
+            if (document.getElementById("01").value) {
+                t.push(parseFloat(document.getElementById("01").value));
+                x.push(0);
+                y.push(1);
+            }
+            if (document.getElementById("11").value) {
+                t.push(parseFloat(document.getElementById("11").value));
+                x.push(1);
+                y.push(1);
+            }
+            if (document.getElementById("21").value) {
+                t.push(parseFloat(document.getElementById("21").value));
+                x.push(2);
+                y.push(1);
+            }
+            if (document.getElementById("31").value) {
+                t.push(parseFloat(document.getElementById("31").value));
+                x.push(3);
+                y.push(1);
+            }
+            if (document.getElementById("41").value) {
+                t.push(parseFloat(document.getElementById("41").value));
+                x.push(4);
+                y.push(1);
+            }
+            if (document.getElementById("02").value) {
+                t.push(parseFloat(document.getElementById("02").value));
+                x.push(0);
+                y.push(2);
+            }
+            if (document.getElementById("12").value) {
+                t.push(parseFloat(document.getElementById("12").value));
+                x.push(1);
+                y.push(2);
+            }
+            if (document.getElementById("22").value) {
+                t.push(parseFloat(document.getElementById("22").value));
+                x.push(2);
+                y.push(2);
+            }
+            if (document.getElementById("32").value) {
+                t.push(parseFloat(document.getElementById("32").value));
+                x.push(3);
+                y.push(2);
+            }
+            if (document.getElementById("42").value) {
+                t.push(parseFloat(document.getElementById("42").value));
+                x.push(4);
+                y.push(2);
+            }
+            if (document.getElementById("03").value) {
+                t.push(parseFloat(document.getElementById("03").value));
+                x.push(0);
+                y.push(3);
+            }
+            if (document.getElementById("13").value) {
+                t.push(parseFloat(document.getElementById("13").value));
+                x.push(1);
+                y.push(3);
+            }
+            if (document.getElementById("23").value) {
+                t.push(parseFloat(document.getElementById("23").value));
+                x.push(2);
+                y.push(3);
+            }
+            if (document.getElementById("33").value) {
+                t.push(parseFloat(document.getElementById("33").value));
+                x.push(3);
+                y.push(3);
+            }
+            if (document.getElementById("43").value) {
+                t.push(parseFloat(document.getElementById("43").value));
+                x.push(4);
+                y.push(3);
+            }
+            if (document.getElementById("04").value) {
+                t.push(parseFloat(document.getElementById("04").value));
+                x.push(0);
+                y.push(4);
+            }
+            if (document.getElementById("14").value) {
+                t.push(parseFloat(document.getElementById("14").value));
+                x.push(1);
+                y.push(4);
+            }
+            if (document.getElementById("24").value) {
+                t.push(parseFloat(document.getElementById("24").value));
+                x.push(2);
+                y.push(4);
+            }
+            if (document.getElementById("34").value) {
+                t.push(parseFloat(document.getElementById("34").value));
+                x.push(3);
+                y.push(4);
+            }
+            if (document.getElementById("44").value) {
+                t.push(parseFloat(document.getElementById("44").value));
+                x.push(4);
+                y.push(4);
+            }
+
+            var model;
+            if (document.getElementById("gaussianModel").checked) {
+                model = "gaussian";
+            }
+            else if (document.getElementById("exponentialModel").checked) {
+                model = "exponential";
+            }
+            else if (document.getElementById("sphericalModel").checked) {
+                model = "spherical";
+            }
+
+            var sigma2 = parseFloat(document.getElementById("sigma2").value);
+            var alpha = parseFloat(document.getElementById("alpha").value);
+            var variogram = kriging.train(t, x, y, model, sigma2, alpha);
+
+            for (i = 0; i < 5; i++) {
+                for (j = 0; j < 5; j++) {
+                    var predictRes = kriging.predict(i, j, variogram);
+                    var position = i.toString() + j.toString();
+                    document.getElementById(position).value = predictRes;
+                }
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <table id="table">
+        <tbody>
+            <tr>
+                <td><input id="00" type="text" /></td>
+                <td><input id="10" type="text" value="80" /></td>
+                <td><input id="20" type="text" /></td>
+                <td><input id="30" type="text" /></td>
+                <td><input id="40" type="text" /></td>
+            </tr>
+            <tr>
+                <td><input id="01" type="text" /></td>
+                <td><input id="11" type="text" /></td>
+                <td><input id="21" type="text" /></td>
+                <td><input id="31" type="text" /></td>
+                <td><input id="41" type="text" value="40" /></td>
+            </tr>
+            <tr>
+                <td><input id="02" type="text" /></td>
+                <td><input id="12" type="text" /></td>
+                <td><input id="22" type="text" value="30" /></td>
+                <td><input id="32" type="text" /></td>
+                <td><input id="42" type="text" /></td>
+            </tr>
+            <tr>
+                <td><input id="03" type="text" /></td>
+                <td><input id="13" type="text" /></td>
+                <td><input id="23" type="text" /></td>
+                <td><input id="33" type="text" value="20" /></td>
+                <td><input id="43" type="text" /></td>
+            </tr>
+            <tr>
+                <td><input id="04" type="text" value="10" /></td>
+                <td><input id="14" type="text" /></td>
+                <td><input id="24" type="text" /></td>
+                <td><input id="34" type="text" /></td>
+                <td><input id="44" type="text" /></td>
+            </tr>
+        </tbody>
+    </table>
+    <input id="gaussianModel" type="radio" name="Model" value="Gaussian" />Gaussian
+    <input id="exponentialModel" type="radio" name="Model" value="Exponential" />Exponential
+    <input id="sphericalModel" type="radio" name="Model" value="Spherical" checked />Spherical
+    <input id="sigma2" type="text" value="0" />Sigma2
+    <input id="alpha" type="text" value="100" />Alpha
+    <br />
+    <input id="calculate" type="button" value="Calculate" onclick="CalculateClick()" />
+    <input id="reset" type="button" value="Reset" onclick="ResetClick()" />
+</body>
+</html>
