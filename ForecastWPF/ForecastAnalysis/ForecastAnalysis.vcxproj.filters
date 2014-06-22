@@ -18,9 +18,15 @@
     <ClInclude Include="DataArps.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DataDuong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataArps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataDuong.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

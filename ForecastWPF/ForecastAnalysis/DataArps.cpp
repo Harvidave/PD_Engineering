@@ -79,6 +79,7 @@ DataArps::compute(std::vector<double> future)
 // q = qi * exp( - a * t )
 // known: q, t 
 // unknown: qi, a
+// forecast: Qf = Qi + (qi - qf)/a
 std::vector<double>
 DataArps::exponential_rate_time(std::vector<double> future)
 {
@@ -130,6 +131,7 @@ DataArps::exponential_rate_time(std::vector<double> future)
 // q = qi - a * Q
 // known: q, Q 
 // unknown: qi, a
+// forecast: Qf = Qi + (qi - qf)/a
 std::vector<double>
 DataArps::exponential_rate_Q(std::vector<double> future)
 {
@@ -179,6 +181,7 @@ DataArps::exponential_rate_Q(std::vector<double> future)
 // q = qi / (1 + ai * t)
 // known: q, t 
 // unknown: qi, ai
+// forecast: Qf = Qi + (qi/ai) * Ln(qi/qf)
 std::vector<double>
 DataArps::harmonic_rate_time(std::vector<double> future)
 {
@@ -230,6 +233,7 @@ DataArps::harmonic_rate_time(std::vector<double> future)
 // q = qi * exp( -ai/qi * Q)
 // known: q, Q 
 // unknown: qi, ai
+// forecast: Qf = Qi + (qi/ai) * Ln(qi/qf)
 std::vector<double>
 DataArps::harmonic_rate_Q(std::vector<double> future)
 {
@@ -281,6 +285,7 @@ DataArps::harmonic_rate_Q(std::vector<double> future)
 // q = qi / (1 + b * ai * t)^(1/b)
 // known: q, t 
 // unknown: qi, ai 
+// forecast: Qf = Qi + (qi^b/ai/(1-b)) * (qi^(1-b) - qf^(1-b))
 std::vector<double>
 DataArps::hyperbolic_onestep_rate_time(double b, bool forecast, std::vector<double> future)
 {
@@ -349,9 +354,10 @@ DataArps::hyperbolic_onestep_rate_time(double b, bool forecast, std::vector<doub
 
 //---------------------------------------------------------------------------
 // hyperbolic decline, rate vs Qumulative, b is given, b != 1
-// q^(1-b) = qi^(1-b) - ai*(1-b)/qi^b * Q
+// q^(1-b) = qi^(1-b) - Q * ai*(1-b)/qi^b
 // known: q, Q 
 // unknown: qi, ai 
+// forecast: Qf = Qi + (qi^b/ai/(1-b)) * (qi^(1-b) - qf^(1-b))
 std::vector<double>
 DataArps::hyperbolic_onestep_rate_Q(double b, bool forecast, std::vector<double> future)
 {
@@ -404,21 +410,16 @@ DataArps::hyperbolic_onestep_rate_Q(double b, bool forecast, std::vector<double>
 	}
 
 	// forecast
-	//TODO: q or q^(1-b)
-	// q^(1-b) = qi^(1-b) - ai*(1-b)/qi^b * Q
-	// known: q, Q 
-	// unknown: qi, ai 
 	if (forecast)
 	{
 		std::vector<double> results;
 		for (int i = 0; i < future.size(); i++) {
-			results.push_back(pow(m_qi, 1 - b) - m_ai * (1 - b) / pow(m_qi, b) * future[i]);
+			results.push_back(pow(pow(m_qi, 1 - b) - future[i] * m_ai * (1 - b) / pow(m_qi, b), 1 / (1 - b)));
 		}
 		return results;
 	}
 
 	return std::vector<double>();
-
 }
 
 
@@ -426,6 +427,7 @@ DataArps::hyperbolic_onestep_rate_Q(double b, bool forecast, std::vector<double>
 //---------------------------------------------------------------------------
 // hyperbolic decline, rate vs time, nonlinear regression: LM method
 // q = qi / (1 + b * ai * dt)^(1/b) 
+// forecast: Qf = Qi + (qi^b/ai/(1-b)) * (qi^(1-b) - qf^(1-b))
 std::vector<double>
 DataArps::hyperbolic_regression_rate_time(std::vector<double> future)
 {
@@ -675,6 +677,7 @@ DataArps::hyperbolic_regression_rate_time(std::vector<double> future)
 //--------------------------------------------------------------------------
 // hyperbolic decline, rate vs Qumulative, nonlinear regression: LM method
 // q^(1-b) = qi^(1-b) - Q * ai * (1-b) / qi^b
+// forecast: Qf = Qi + (qi^b/ai/(1-b)) * (qi^(1-b) - qf^(1-b))
 std::vector<double>
 DataArps::hyperbolic_regression_rate_Q(std::vector<double> future)
 {
@@ -941,7 +944,7 @@ DataArps::hyperbolic_regression_rate_Q(std::vector<double> future)
 	//forecast
 	std::vector<double> results;
 	for (int i = 0; i < future.size(); i++) {
-		results.push_back(pow(m_qi, 1 - m_b) - future[i] * m_ai * (1 - b) / pow(m_qi, b));
+		results.push_back(pow(pow(m_qi, 1 - m_b) - future[i] * m_ai * (1 - b) / pow(m_qi, b), 1 / (1 - b)));
 	}
 	return results;
 }

@@ -77,9 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataArps.h" />
+    <ClInclude Include="DataDuong.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataArps.cpp" />
+    <ClCompile Include="DataDuong.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

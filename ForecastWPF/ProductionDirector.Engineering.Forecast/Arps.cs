@@ -21,7 +21,7 @@ namespace ProductionDirector.Engineering.Forecast
                 return null;
             }
 
-            double[] result = new double[future.Length];
+            var result = new double[future.Length];
             IntPtr computeForecast = ComputeForecast((int)method, x, y, x.Length, future, future.Length);
             Marshal.Copy(computeForecast, result, 0, future.Length);
             ReleaseMemory(computeForecast);
