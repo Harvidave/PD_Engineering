@@ -21,12 +21,18 @@
     <ClInclude Include="DataDuong.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DataSEPD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataArps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DataDuong.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSEPD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
