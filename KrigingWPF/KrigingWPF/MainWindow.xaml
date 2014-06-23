@@ -12,9 +12,9 @@
         <TextBox Name="Alpha" HorizontalAlignment="Left" Height="23" Margin="60,155,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="55"/>
         <Label Content="Alpha" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top"/>
         <Button Content="Reset" Click="ResetClick" HorizontalAlignment="Left" Margin="338,18,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBox Name="Dimension" HorizontalAlignment="Left" Height="23" Margin="170,17,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="55"/>
+        <TextBox Name="Dimension" HorizontalAlignment="Left" Height="23" Margin="170,17,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="55"/>
         <Label Content="Dimension" HorizontalAlignment="Left" Margin="103,14,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="Val" HorizontalAlignment="Left" Height="23" Margin="36,215,0,0" TextWrapping="Wrap" Text="80, 40, 30, 20, 10" VerticalAlignment="Top" Width="472"/>
+        <TextBox Name="Val" HorizontalAlignment="Left" Height="23" Margin="36,215,0,0" TextWrapping="Wrap" Text="0.8, 0.4, 0.3, 0.2, 0.1" VerticalAlignment="Top" Width="472"/>
         <TextBox Name="X" HorizontalAlignment="Left" Height="23" Margin="36,243,0,0" TextWrapping="Wrap" Text="1, 4, 2, 3, 0" VerticalAlignment="Top" Width="472"/>
         <TextBox Name="Y" HorizontalAlignment="Left" Height="23" Margin="36,271,0,0" TextWrapping="Wrap" Text="0, 1, 2, 3, 4" VerticalAlignment="Top" Width="472"/>
         <Label Content="Val" HorizontalAlignment="Left" Margin="10,213,0,0" VerticalAlignment="Top" Width="26"/>

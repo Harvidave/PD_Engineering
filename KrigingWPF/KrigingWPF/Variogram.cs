@@ -62,7 +62,7 @@ namespace KrigingWPF
                 for (l = 0; l < lags; l++)
                 {
                     lag[l] = distance[l][0];
-                    semi[l] = (int)distance[l][1];
+                    semi[l] = distance[l][1];
                 }
             }
             else
@@ -71,8 +71,8 @@ namespace KrigingWPF
                 {
                     while (distance[j][0] <= ((i + 1) * tolerance))
                     {
-                        lag[l] += (int)distance[j][0];
-                        semi[l] += (int)distance[j][1];
+                        lag[l] += distance[j][0];
+                        semi[l] += distance[j][1];
                         j++;
                         k++;
                         if (j >= (distanceLength))
