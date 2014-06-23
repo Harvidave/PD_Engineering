@@ -5,6 +5,18 @@ namespace KrigingWPF
 {
     public class Variogram
     {
+        private double _nugget;
+
+        private double _range;
+
+        private double _sill;
+
+        private double[] _k;
+
+        private double[] _m;
+
+        private int _n;
+
         public double[] TargetValue { get; set; }
 
         public double[] XCoord { get; set; }
@@ -15,20 +27,7 @@ namespace KrigingWPF
 
         public double Alpha { get; set; }
 
-        public double Nugget { get; set; }
-
-        public double Range { get; set; }
-
-        public double Sill { get; set; }
-
-        public double[] K { get; set; }
-
-        public double[] M { get; set; }
-
-        public int N { get; set; }
-
         public double A { get; set; }
-
 
         public VariogramModel Model { get; set; }
 
@@ -48,13 +47,12 @@ namespace KrigingWPF
                         Math.Pow(YCoord[i] - YCoord[j], 2), 0.5);
                     distance[k][1] = Math.Abs(TargetValue[i] - TargetValue[j]);
                 }
-            //TODO: distance = distance.OrderBy(doubles => doubles[0]);
             distance = distance.OrderBy(doubles => doubles[0]).ToArray();
-            Range = distance[distanceLength - 1][0];
+            _range = distance[distanceLength - 1][0];
 
             // Bin lag distance
             int lags = (distanceLength) > 30 ? 30 : distanceLength;
-            double tolerance = Range / lags;
+            double tolerance = _range / lags;
             double[] lag = new double[lags];
             double[] semi = new double[lags];
             if (lags < 30)
@@ -95,7 +93,7 @@ namespace KrigingWPF
 
             // Feature transformation
             int currentL = l;
-            Range = lag[currentL - 1] - lag[0];
+            _range = lag[currentL - 1] - lag[0];
             double[] x = Enumerable.Repeat(1.0, 2 * currentL).ToArray();
             double[] y = new double[currentL];
             for (i = 0; i < currentL; i++)
@@ -103,14 +101,14 @@ namespace KrigingWPF
                 switch (Model)
                 {
                     case VariogramModel.Gaussian:
-                        x[i * 2 + 1] = 1.0 - Math.Exp(-(1.0 / A) * Math.Pow(lag[i] / Range, 2));
+                        x[i * 2 + 1] = 1.0 - Math.Exp(-(1.0 / A) * Math.Pow(lag[i] / _range, 2));
                         break;
                     case VariogramModel.Exponential:
-                        x[i * 2 + 1] = 1.0 - Math.Exp(-(1.0 / A) * lag[i] / Range);
+                        x[i * 2 + 1] = 1.0 - Math.Exp(-(1.0 / A) * lag[i] / _range);
                         break;
                     case VariogramModel.Spherical:
-                        x[i * 2 + 1] = 1.5 * (lag[i] / Range) -
-                                     0.5 * Math.Pow(lag[i] / Range, 3);
+                        x[i * 2 + 1] = 1.5 * (lag[i] / _range) -
+                                     0.5 * Math.Pow(lag[i] / _range, 3);
                         break;
                 }
                 y[i] = semi[i];
@@ -133,9 +131,9 @@ namespace KrigingWPF
             double[] w = _Kriging_matrix_multiply(_Kriging_matrix_multiply(z, xt, 2, 2, currentL), y, 2, currentL, 1);
 
             // Variogram parameters
-            Nugget = w[0];
-            Sill = w[1] * Range + Nugget;
-            N = XCoord.Length;
+            _nugget = w[0];
+            _sill = w[1] * _range + _nugget;
+            _n = XCoord.Length;
 
             // Gram matrix with prior
             currentL = XCoord.Length;
@@ -168,109 +166,34 @@ namespace KrigingWPF
             // Copy unprojected inverted matrix as K
             if (c != null)
             {
-                K = c.Clone() as double[];
+                _k = c.Clone() as double[];
             }
             double[] m = _Kriging_matrix_multiply(c, TargetValue, currentL, currentL, 1);
-            M = m;
+            _m = m;
         }
 
         public double Predict(double x, double y)
         {
-            double[] k = new double[N];
-            for (int i = 0; i < N; i++)
+            double[] k = new double[_n];
+            for (int i = 0; i < _n; i++)
             {
                 k[i] = _CalculateProbablity(Math.Pow(Math.Pow(x - XCoord[i], 2) + Math.Pow(y - YCoord[i], 2), 0.5));
             }
-            return _Kriging_matrix_multiply(k, M, 1, N, 1)[0];
+            return _Kriging_matrix_multiply(k, _m, 1, _n, 1)[0];
         }
 
         public double Variance(double x, double y)
         {
-            double[] k = new double[N];
-            for (int i = 0; i < N; i++)
+            double[] k = new double[_n];
+            for (int i = 0; i < _n; i++)
             {
                 k[i] = _CalculateProbablity(Math.Pow(Math.Pow(x - XCoord[i], 2) + Math.Pow(y - YCoord[i], 2), 0.5));
             }
             return _CalculateProbablity(0) +
-                   _Kriging_matrix_multiply(_Kriging_matrix_multiply(k, K, 1, N, N), k, 1, N, 1)[0];
+                   _Kriging_matrix_multiply(_Kriging_matrix_multiply(k, _k, 1, _n, _n), k, 1, _n, 1)[0];
         }
 
-        //    public double[] Grid(double[][][] polygons, int width)
-        //    {
-        //        int i, j;
-        //        int n = polygons.Length;
-        //        if (n == 0)
-        //        {
-        //            return null;
-        //        }
-
-        //        // Boundaries of polygons space
-        //var xlim = [polygons[0][0][0], polygons[0][0][0]];
-        //var ylim = [polygons[0][0][1], polygons[0][0][1]];
-        //for(i=0;i<n;i++) // Polygons
-        //    for(j=0;j<polygons[i].Length;j++) { // Vertices
-        //    if(polygons[i][j][0]<xlim[0]) 
-        //        xlim[0] = polygons[i][j][0];
-        //    if(polygons[i][j][0]>xlim[1])
-        //        xlim[1] = polygons[i][j][0];
-        //    if(polygons[i][j][1]<ylim[0]) 
-        //        ylim[0] = polygons[i][j][1];
-        //    if(polygons[i][j][1]>ylim[1])
-        //        ylim[1] = polygons[i][j][1];
-        //    }
-
-        //// Alloc for O(n^2) space
-        //var xtarget, ytarget;
-        //var a = Array(2), b = Array(2);
-        //var lxlim = Array(2); // Local dimensions
-        //var lylim = Array(2); // Local dimensions
-        //var x = Math.Ceiling(((xlim[1]-xlim[0])/width);
-        //var y = Math.Ceiling((ylim[1]-ylim[0])/width);
-
-        //var A = Array(x+1);
-        //for(i=0;i<=x;i++) A[i] = Array(y+1);
-        //for(i=0;i<n;i++) {
-        //    // Range for polygons[i]
-        //    lxlim[0] = polygons[i][0][0];
-        //    lxlim[1] = lxlim[0];
-        //    lylim[0] = polygons[i][0][1];
-        //    lylim[1] = lylim[0];
-        //    for(j=1;j<polygons[i].Length;j++) { // Vertices
-        //    if(polygons[i][j][0]<lxlim[0]) 
-        //        lxlim[0] = polygons[i][j][0];
-        //    if(polygons[i][j][0]>lxlim[1])
-        //        lxlim[1] = polygons[i][j][0];
-        //    if(polygons[i][j][1]<lylim[0]) 
-        //        lylim[0] = polygons[i][j][1];
-        //    if(polygons[i][j][1]>lylim[1])
-        //        lylim[1] = polygons[i][j][1];
-        //    }
-
-        //    // Loop through polygon subspace
-        //    a[0] = Math.Floor(((lxlim[0]-((lxlim[0]-xlim[0])%width)) - xlim[0])/width);
-        //    a[1] = Math.Ceiling(((lxlim[1]-((lxlim[1]-xlim[1])%width)) - xlim[0])/width);
-        //    b[0] = Math.Floor(((lylim[0]-((lylim[0]-ylim[0])%width)) - ylim[0])/width);
-        //    b[1] = Math.Ceiling(((lylim[1]-((lylim[1]-ylim[1])%width)) - ylim[0])/width);
-        //    for(j=a[0];j<=a[1];j++)
-        //    {
-        //        for(int k=b[0];k<=b[1];k++) {
-        //            xtarget = xlim[0] + j*width;
-        //            ytarget = ylim[0] + k*width;
-        //            if(polygons[i].pip(xtarget, ytarget))
-        //                A[j][k] = Predict(xtarget,
-        //                    ytarget,
-        //                    variogram);
-        //        }
-        //    }
-        //}
-        //A.xlim = xlim;
-        //A.ylim = ylim;
-        //A.zlim = [variogram.t.min(), variogram.t.max()];
-        //A.width = width;
-        //return A;
-        //    }
-
-        private static bool _Kriging_matrix_solve(double[] x, int n)
+        private static void _Kriging_matrix_solve(double[] x, int n)
         {
             int m = n;
             double[] b = new double[n * n];
@@ -340,7 +263,7 @@ namespace KrigingWPF
 
                 if (Math.Abs(x[icol * n + icol]) < Double.Epsilon)
                 {
-                    return false;
+                    return;
                 } // Singula
 
                 double pivinv = 1 / x[icol * n + icol];
@@ -369,8 +292,6 @@ namespace KrigingWPF
                         x[k * n + indxc[l]] = temp;
                     }
                 }
-
-            return true;
         }
 
         private static void _Kriging_matrix_chol2inv(double[] x, int n)
@@ -487,7 +408,7 @@ namespace KrigingWPF
 
         private double _CalculateProbablity(double h)
         {
-            return _CalculateProbablity(h, Nugget, Range, Sill, A);
+            return _CalculateProbablity(h, _nugget, _range, _sill, A);
         }
 
         private double _CalculateProbablity(double h, double nugget, double range, double sill, double a)
