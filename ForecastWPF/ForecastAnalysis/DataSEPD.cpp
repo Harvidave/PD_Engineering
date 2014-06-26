@@ -5,9 +5,8 @@
 using namespace std;
 
 
-DataSEPD::DataSEPD(int i_method, std::vector<double> x, std::vector<double> y)
-	:m_method(i_method),
-	m_x(x),
+DataSEPD::DataSEPD(std::vector<double> x, std::vector<double> y)
+	:m_x(x),
 	m_y(y)
 {
 	if (x.size() == y.size()){
@@ -47,25 +46,23 @@ DataSEPD::precheck()
 
 
 //---------------------------------------------------------------------------
-void
-DataSEPD::compute()
+// q = q0 * exp(- (t/tao)^n ) 
+std::vector<double>
+DataSEPD::compute(std::vector<double> future)
 {
 	// simply check the data, (size >=2, all x > 0 , all y > 0)
 	bool a = precheck();
 	if (a == false)
-		return;
-
+		return std::vector<double>();
 
 	SEPD_match();
 
-	SEPD_forecast();
-
+	return SEPD_forecast(future);
 }
 
 
 
 //---------------------------------------------------------------------------
-// q = q0 * exp(- (t/tao)^n ) 
 void
 DataSEPD::SEPD_match()
 {
@@ -317,10 +314,14 @@ DataSEPD::SEPD_match()
 
 
 //---------------------------------------------------------------------------
-void
-DataSEPD::SEPD_forecast()
+std::vector<double>
+DataSEPD::SEPD_forecast(std::vector<double> future)
 {
-
+	std::vector<double> results;
+	for (int i = 0; i < future.size(); i++) {
+		results.push_back(m_q0 * exp(0.0 - pow(future[i] / m_tao, m_n)));
+	}
+	return results;
 }
 
 

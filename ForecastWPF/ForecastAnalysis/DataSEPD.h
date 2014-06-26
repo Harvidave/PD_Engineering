@@ -8,12 +8,11 @@
 class DataSEPD
 {
 public:
-	DataSEPD(int i_method, std::vector<double> x, std::vector<double> y);
+	DataSEPD(std::vector<double> x, std::vector<double> y);
 
-	void    compute();
+	std::vector<double>    compute(std::vector<double> future);
 
 private:
-	int                                           m_method;
 	std::vector<double>							m_x;
 	std::vector<double>							m_y;
 	int                                           m_size;
@@ -27,7 +26,7 @@ private:
 	bool    precheck();
 
 	void    SEPD_match();
-	void    SEPD_forecast();
+	std::vector<double>    SEPD_forecast(std::vector<double> future);
 
 	void    swap_row(double *a, double *b, int r1, int r2, int n);
 	void    gauss_eliminate(double *a, double *b, double *x, int n);

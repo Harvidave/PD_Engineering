@@ -15,7 +15,7 @@ namespace ForecastWPF
             InitializeComponent();
         }
 
-        private void ComputeClick(object sender, RoutedEventArgs e)
+        private void ArpsClick(object sender, RoutedEventArgs e)
         {
             // Rate_Time x: 0.0,1.0,2.0,3.0,4.0
             // Rate_Time y: 30.0,28.0,26.0,24.0,20.0
@@ -30,6 +30,42 @@ namespace ForecastWPF
             int method = int.Parse(Method.Text);
 
             double[] result = Arps.ComputeForecast((ArpsMethodEnum)method, x, y, future);
+            Result.Text = string.Empty;
+            foreach (double d in result)
+            {
+                Result.Text = string.Concat(Result.Text, d, Environment.NewLine);
+            }
+        }
+
+        private void DuongClick(object sender, RoutedEventArgs e)
+        {
+            // x: 1.0,2.0,3.0,4.0,5.0
+            // y: 50.0,44.21524,38.9416,35.28946,32.581
+            // z: 6.0,7.0,8.0,9.0,10.0,11.0
+
+            double[] x = X.Text.Split(',').Select(double.Parse).ToArray();
+            double[] y = Y.Text.Split(',').Select(double.Parse).ToArray();
+            double[] future = Future.Text.Split(',').Select(double.Parse).ToArray();
+            int method = int.Parse(Method.Text);
+
+            double[] result = Arps.ComputeForecast((ArpsMethodEnum)method, x, y, future);
+            Result.Text = string.Empty;
+            foreach (double d in result)
+            {
+                Result.Text = string.Concat(Result.Text, d, Environment.NewLine);
+            }
+        }
+
+        private void SEPDClick(object sender, RoutedEventArgs e)
+        {
+            // x: 1.0,2.0,3.0,4.0,5.0  --  Cannot start with 0.0
+            // y: 100.0,73.3904,52.77319,37.07398,25.35525
+            // z: 6.0,7.0,8.0,9.0,10.0,11.0
+            double[] x = X.Text.Split(',').Select(double.Parse).ToArray();
+            double[] y = Y.Text.Split(',').Select(double.Parse).ToArray();
+            double[] future = Future.Text.Split(',').Select(double.Parse).ToArray();
+
+            double[] result = SEPD.ComputeForecast(x, y, future);
             Result.Text = string.Empty;
             foreach (double d in result)
             {

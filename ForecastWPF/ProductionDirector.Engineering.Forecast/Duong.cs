@@ -3,10 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace ProductionDirector.Engineering.Forecast
 {
-    public class Arps
+    public class Duong
     {
         [DllImport("ProductionDirectorForecast.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr ComputeArps(int forecastMethod,
+        private static extern IntPtr ComputeDuong(int forecastMethod,
             [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] double[] x,
             [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] double[] y, int inputLength,
             [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] double[] future, int futureLength);
@@ -14,7 +14,7 @@ namespace ProductionDirector.Engineering.Forecast
         [DllImport("ProductionDirectorForecast.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int ReleaseMemory(IntPtr intptr);
 
-        public static double[] ComputeForecast(ArpsMethodEnum method, double[] x, double[] y, double[] future)
+        public static double[] ComputeForecast(DuongMethodEnum method, double[] x, double[] y, double[] future)
         {
             if (x.Length != y.Length)
             {
@@ -22,7 +22,7 @@ namespace ProductionDirector.Engineering.Forecast
             }
 
             var result = new double[future.Length];
-            IntPtr computeForecast = ComputeArps((int)method, x, y, x.Length, future, future.Length);
+            IntPtr computeForecast = ComputeDuong((int)method, x, y, x.Length, future, future.Length);
             Marshal.Copy(computeForecast, result, 0, future.Length);
             ReleaseMemory(computeForecast);
             return result;

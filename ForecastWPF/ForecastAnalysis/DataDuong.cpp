@@ -64,13 +64,14 @@ DataDuong::choose_q1(int iuse)
 
 
 //---------------------------------------------------------------------------
-void
-DataDuong::compute()
+// qi = q1 * pow(t, -m) * exp(a / (1 - m) * (pow(t, 1-m) - 1)) + qinf
+std::vector<double>
+DataDuong::compute(std::vector<double> future)
 {
 	// simply check the data, (size >=2, all x > 0 , all y > 0)
 	bool a = precheck();
 	if (a == false)
-		return;
+		return std::vector<double>();
 
 
 	// use m_method to control choosing q1
@@ -78,8 +79,7 @@ DataDuong::compute()
 
 	Duong_match();
 
-	Duong_forecast();
-
+	return Duong_forecast(future);
 }
 
 
@@ -348,10 +348,14 @@ DataDuong::Duong_match()
 
 
 //---------------------------------------------------------------------------
-void
-DataDuong::Duong_forecast()
+std::vector<double>
+DataDuong::Duong_forecast(std::vector<double> future)
 {
-
+	std::vector<double> results;
+	for (int i = 0; i < future.size(); i++) {
+		results.push_back(m_q1 * pow(future[i], 0 - m_m) * exp(m_a / (1 - m_m) * (pow(future[i], 1 - m_m) - 1)) + m_qinf);
+	}
+	return results;
 }
 
 

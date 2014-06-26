@@ -13,7 +13,7 @@ class DataDuong
 public:
 	DataDuong(int i_method, std::vector<double> x, std::vector<double> y);
 
-	void    compute();
+	std::vector<double>    compute(std::vector<double> future);
 
 
 private:
@@ -34,7 +34,7 @@ private:
 
 	void    Duong_match();
 
-	void    Duong_forecast();
+	std::vector<double>    Duong_forecast(std::vector<double> future);
 
 	void    swap_row(double *a, double *b, int r1, int r2, int n);
 	void    gauss_eliminate(double *a, double *b, double *x, int n);
