@@ -9,8 +9,8 @@ class DataSEPD
 {
 public:
 	DataSEPD(std::vector<double> x, std::vector<double> y);
-
-	std::vector<double>    compute(std::vector<double> future);
+	std::vector<double>    computeForecast(std::vector<double> future);
+	double	ComputeEur();
 
 private:
 	std::vector<double>							m_x;
@@ -26,7 +26,6 @@ private:
 	bool    precheck();
 
 	void    SEPD_match();
-	std::vector<double>    SEPD_forecast(std::vector<double> future);
 
 	void    swap_row(double *a, double *b, int r1, int r2, int n);
 	void    gauss_eliminate(double *a, double *b, double *x, int n);

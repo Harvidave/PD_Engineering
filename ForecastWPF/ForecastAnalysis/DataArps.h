@@ -9,7 +9,8 @@ class DataArps
 public:
 	DataArps(int i_method, std::vector<double> x, std::vector<double> y);
 
-	std::vector<double>    compute(std::vector<double> future);
+	std::vector<double>    computeForecast(std::vector<double> future);
+	double		computeEur(double Qi, double qf);
 
 private:
 	int                                           m_method;

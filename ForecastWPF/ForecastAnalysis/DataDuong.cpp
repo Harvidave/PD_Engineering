@@ -12,6 +12,11 @@ DataDuong::DataDuong(int i_method, std::vector<double> x, std::vector<double> y)
 	if (x.size() == y.size()){
 		m_size = x.size();
 	}
+
+	// use m_method to control choosing q1
+	choose_q1(m_method);
+
+	Duong_match();
 }
 
 
@@ -61,27 +66,6 @@ DataDuong::choose_q1(int iuse)
 	}
 
 }
-
-
-//---------------------------------------------------------------------------
-// qi = q1 * pow(t, -m) * exp(a / (1 - m) * (pow(t, 1-m) - 1)) + qinf
-std::vector<double>
-DataDuong::compute(std::vector<double> future)
-{
-	// simply check the data, (size >=2, all x > 0 , all y > 0)
-	bool a = precheck();
-	if (a == false)
-		return std::vector<double>();
-
-
-	// use m_method to control choosing q1
-	choose_q1(m_method);
-
-	Duong_match();
-
-	return Duong_forecast(future);
-}
-
 
 
 //---------------------------------------------------------------------------
@@ -339,18 +323,31 @@ DataDuong::Duong_match()
 		x[2] = m_m;
 		i_iter++;   // increase iteration
 	}  // end of L-M loop
+}
 
+// m_q1 / m_a * pow()
+double
+DataDuong::computeEur(){
+	// simply check the data, (size >=2, all x > 0 , all y > 0)
+	bool a = precheck();
+	if (a == false)
+		return -1.0;
 
-	//
-
+	//TODO: return m_q1 / m_a * pow()
+	return 2.0;
 }
 
 
-
 //---------------------------------------------------------------------------
+// qi = q1 * pow(t, -m) * exp(a / (1 - m) * (pow(t, 1-m) - 1)) + qinf
 std::vector<double>
-DataDuong::Duong_forecast(std::vector<double> future)
+DataDuong::computeForecast(std::vector<double> future)
 {
+	// simply check the data, (size >=2, all x > 0 , all y > 0)
+	bool a = precheck();
+	if (a == false)
+		return std::vector<double>();
+
 	std::vector<double> results;
 	for (int i = 0; i < future.size(); i++) {
 		results.push_back(m_q1 * pow(future[i], 0 - m_m) * exp(m_a / (1 - m_m) * (pow(future[i], 1 - m_m) - 1)) + m_qinf);

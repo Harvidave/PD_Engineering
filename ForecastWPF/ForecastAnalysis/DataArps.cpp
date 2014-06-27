@@ -32,9 +32,9 @@ DataArps::precheck()
 }
 
 //---------------------------------------------------------------------------
-// public compute function
+// public compute forecast function
 std::vector<double>
-DataArps::compute(std::vector<double> future)
+DataArps::computeForecast(std::vector<double> future)
 {
 	// simply check the data, (size >=2, all x > 0 , all y > 0)
 	if (precheck() == false)
@@ -68,6 +68,63 @@ DataArps::compute(std::vector<double> future)
 	{
 		std::cout << " Do not have this case \n";
 		return std::vector<double>();
+	}
+
+}
+
+//---------------------------------------------------------------------------
+// public compute eur function
+double
+DataArps::computeEur(double Qi, double qf)
+{
+	// simply check the data, (size >=2, all x > 0 , all y > 0)
+	if (precheck() == false)
+		return -1.0;
+
+	// exponential decline
+	if (m_method == 0) {
+		exponential_rate_time(std::vector<double>());
+		return Qi + (m_qi - qf) / m_ai;
+	}
+	else if (m_method == 1) {
+		exponential_rate_Q(std::vector<double>());
+		return Qi + (m_qi - qf) / m_ai;
+	}
+
+	// harmonic decline
+	else if (m_method == 2) { // TODO: result is negative..
+		harmonic_rate_time(std::vector<double>());
+		return Qi + m_qi / m_ai * log(m_ai / qf);
+	}
+	else if (m_method == 3) {
+		harmonic_rate_Q(std::vector<double>());
+		return Qi + m_qi / m_ai * log(m_ai / qf);
+	}
+
+	// hyperbolic decline, n is specified
+	else if (m_method == 4) {
+		hyperbolic_onestep_rate_time(0.2, true, std::vector<double>());
+		return Qi + pow(m_qi, m_b) * (pow(m_qi, 1 - m_b) - pow(qf, 1 - m_b)) / m_ai / (1 - m_b);
+	}
+	else if (m_method == 5) {
+		hyperbolic_onestep_rate_Q(0.2, true, std::vector<double>());
+		return Qi + pow(m_qi, m_b) * (pow(m_qi, 1 - m_b) - pow(qf, 1 - m_b)) / m_ai / (1 - m_b);
+	}
+
+	//hyperbolic decline, automatically nonlinear-regression
+	else if (m_method == 6) {
+		hyperbolic_regression_rate_time(std::vector<double>());
+		return Qi + pow(m_qi, m_b) * (pow(m_qi, 1 - m_b) - pow(qf, 1 - m_b)) / m_ai / (1 - m_b);
+	}
+	else if (m_method == 7) {
+		hyperbolic_regression_rate_Q(std::vector<double>());
+		return Qi + pow(m_qi, m_b) * (pow(m_qi, 1 - m_b) - pow(qf, 1 - m_b)) / m_ai / (1 - m_b);
+	}
+
+	else
+	{
+		std::cout << " Do not have this case \n";
+		return -1.0;
 	}
 
 }

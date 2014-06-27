@@ -12,6 +12,8 @@ DataSEPD::DataSEPD(std::vector<double> x, std::vector<double> y)
 	if (x.size() == y.size()){
 		m_size = x.size();
 	}
+
+	SEPD_match();
 }
 
 
@@ -41,25 +43,6 @@ DataSEPD::precheck()
 
 	return check;
 }
-
-
-
-
-//---------------------------------------------------------------------------
-// q = q0 * exp(- (t/tao)^n ) 
-std::vector<double>
-DataSEPD::compute(std::vector<double> future)
-{
-	// simply check the data, (size >=2, all x > 0 , all y > 0)
-	bool a = precheck();
-	if (a == false)
-		return std::vector<double>();
-
-	SEPD_match();
-
-	return SEPD_forecast(future);
-}
-
 
 
 //---------------------------------------------------------------------------
@@ -314,14 +297,31 @@ DataSEPD::SEPD_match()
 
 
 //---------------------------------------------------------------------------
+// q = q0 * exp(- (t/tao)^n ) 
 std::vector<double>
-DataSEPD::SEPD_forecast(std::vector<double> future)
+DataSEPD::computeForecast(std::vector<double> future)
 {
+	// simply check the data, (size >=2, all x > 0 , all y > 0)
+	bool a = precheck();
+	if (a == false)
+		return std::vector<double>();
+
 	std::vector<double> results;
 	for (int i = 0; i < future.size(); i++) {
 		results.push_back(m_q0 * exp(0.0 - pow(future[i] / m_tao, m_n)));
 	}
 	return results;
+}
+
+// q0*tao/n*gamma(1/n)
+double
+DataSEPD::ComputeEur()
+{
+	bool a = precheck();
+	if (a == false)
+		return -1.0;
+	//TODO: return q0*tao/n*gamma(1/n);
+	return 1.0;
 }
 
 
