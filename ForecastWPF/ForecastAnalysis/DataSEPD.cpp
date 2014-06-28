@@ -313,15 +313,14 @@ DataSEPD::computeForecast(std::vector<double> future)
 	return results;
 }
 
-// q0*tao/n*gamma(1/n)
+// q0 * tao / n * gamma(1/n)
 double
 DataSEPD::ComputeEur()
 {
 	bool a = precheck();
 	if (a == false)
 		return -1.0;
-	//TODO: return q0*tao/n*gamma(1/n);
-	return 1.0;
+	return m_q0 * m_tao / m_n * lgamma(1 / m_n);
 }
 
 

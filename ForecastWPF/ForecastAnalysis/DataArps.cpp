@@ -92,7 +92,7 @@ DataArps::computeEur(double Qi, double qf)
 	}
 
 	// harmonic decline
-	else if (m_method == 2) { // TODO: result is negative..
+	else if (m_method == 2) {
 		harmonic_rate_time(std::vector<double>());
 		return Qi + m_qi / m_ai * log(m_ai / qf);
 	}

@@ -36,7 +36,7 @@ namespace ForecastWPF
                 Result.Text = string.Concat(Result.Text, d, Environment.NewLine);
             }
 
-            var computeEur = Arps.ComputeEur((ArpsMethodEnum)method, x, y, 100.0, 10.0);
+            var computeEur = Arps.ComputeEur((ArpsMethodEnum)method, x, y, 100.0, 0.0001);
             Eur.Text = computeEur.ToString();
         }
 
@@ -58,7 +58,7 @@ namespace ForecastWPF
                 Result.Text = string.Concat(Result.Text, d, Environment.NewLine);
             }
 
-            Eur.Text = Duong.ComputeEur((DuongMethodEnum)method, x, y).ToString();
+            Eur.Text = Duong.ComputeEur((DuongMethodEnum)method, x, y, 20.0).ToString();
         }
 
         private void SEPDClick(object sender, RoutedEventArgs e)

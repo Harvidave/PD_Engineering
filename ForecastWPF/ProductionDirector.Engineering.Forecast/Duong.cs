@@ -14,7 +14,8 @@ namespace ProductionDirector.Engineering.Forecast
         [DllImport("ProductionDirectorForecast.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern double ComputeDuongEur(int forecastMethod,
             [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] double[] x,
-            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] double[] y, int inputLength);
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] double[] y, int inputLength,
+            double tf);
 
         [DllImport("ProductionDirectorForecast.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int ReleaseMemory(IntPtr intptr);
@@ -32,14 +33,14 @@ namespace ProductionDirector.Engineering.Forecast
             ReleaseMemory(computeForecast);
             return result;
         }
-        public static double ComputeEur(DuongMethodEnum method, double[] x, double[] y)
+        public static double ComputeEur(DuongMethodEnum method, double[] x, double[] y, double tf)
         {
             if (x.Length != y.Length)
             {
                 return double.MinValue;
             }
 
-            return ComputeDuongEur((int) method, x, y, x.Length);
+            return ComputeDuongEur((int) method, x, y, x.Length, tf);
         }
     }
 }

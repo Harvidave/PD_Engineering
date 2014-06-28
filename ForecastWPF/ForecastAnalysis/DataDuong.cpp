@@ -327,14 +327,13 @@ DataDuong::Duong_match()
 
 // m_q1 / m_a * pow()
 double
-DataDuong::computeEur(){
+DataDuong::computeEur(double tf){
 	// simply check the data, (size >=2, all x > 0 , all y > 0)
 	bool a = precheck();
 	if (a == false)
 		return -1.0;
 
-	//TODO: return m_q1 / m_a * pow()
-	return 2.0;
+	return m_q1 / m_a * pow(tf, m_m);
 }
 
 

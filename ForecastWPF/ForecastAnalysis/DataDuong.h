@@ -13,7 +13,7 @@ class DataDuong
 public:
 	DataDuong(int i_method, std::vector<double> x, std::vector<double> y);
 	std::vector<double>    computeForecast(std::vector<double> future);
-	double		computeEur();
+	double		computeEur(double tf);
 
 private:
 	int                                           m_method;

@@ -49,14 +49,14 @@ extern "C" _declspec(dllexport) double* ComputeDuongForecast(int forecastMethod,
 	return result;
 }
 
-extern "C" _declspec(dllexport) double ComputeDuongEur(int forecastMethod, double* x, double* y, int inputLength, double* future, int futureLength){
+extern "C" _declspec(dllexport) double ComputeDuongEur(int forecastMethod, double* x, double* y, int inputLength, double tf){
 
 	std::vector<double> xVector(x, x + inputLength);
 	std::vector<double> yVector(y, y + inputLength);
 
 	DataDuong dataDuong(forecastMethod, xVector, yVector);
 
-	return dataDuong.computeEur();
+	return dataDuong.computeEur(tf);
 }
 
 extern "C" _declspec(dllexport) double* ComputeSEPDForecast(double* x, double* y, int inputLength, double* future, int futureLength){
