@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAnalysis", "DataAnalysis\DataAnalysis.csproj", "{44E5E710-52E0-48C4-A337-B4F02DD9077A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1} = {85F9A14E-91D2-402C-B3F0-00EF971D74E1}
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82} = {C262F7C4-44FD-4A41-A395-C3FC24EEBB82}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataAnalysisCpp", "DataAnalysisCpp\DataAnalysisCpp.vcxproj", "{85F9A14E-91D2-402C-B3F0-00EF971D74E1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataAnalysisCppWrapper", "DataAnalysisCppWrapper\DataAnalysisCppWrapper.vcxproj", "{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1} = {85F9A14E-91D2-402C-B3F0-00EF971D74E1}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{44E5E710-52E0-48C4-A337-B4F02DD9077A}.Release|Win32.ActiveCfg = Release|Any CPU
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Debug|Win32.Build.0 = Debug|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Release|Any CPU.ActiveCfg = Release|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Release|Win32.ActiveCfg = Release|Win32
+		{85F9A14E-91D2-402C-B3F0-00EF971D74E1}.Release|Win32.Build.0 = Release|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Debug|Win32.Build.0 = Debug|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Release|Any CPU.ActiveCfg = Release|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Release|Win32.ActiveCfg = Release|Win32
+		{C262F7C4-44FD-4A41-A395-C3FC24EEBB82}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
