@@ -37,6 +37,12 @@
     <Reference Include="ProductionDirector.Engineering.Forecast.DataAnalysis">
       <HintPath>..\PDLibraries\ProductionDirector.Engineering.Forecast.DataAnalysis.dll</HintPath>
     </Reference>
+    <Reference Include="ProductionDirector.Engineering.Forecast.DataAnalysisCpp">
+      <HintPath>..\PDLibraries\ProductionDirector.Engineering.Forecast.DataAnalysisCpp.dll</HintPath>
+    </Reference>
+    <Reference Include="ProductionDirector.Engineering.Forecast.DataAnalysisCppWrapper">
+      <HintPath>..\PDLibraries\ProductionDirector.Engineering.Forecast.DataAnalysisCppWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
