@@ -182,7 +182,23 @@ namespace ProductionDirector.Engineering.Interpolation.Kriging
             return KrigingMatrixMultiply(k, _m, 1, _n, 1)[0];
         }
 
-        public double Variance(double x, double y)
+	    public double[,] Calculate(double xMin, double xMax, double yMin, double yMax, int dimension,
+		    CoordinateSystemOrigin origin)
+	    {
+		    double[,] result = new double[dimension, dimension];
+		    double xRange = xMax - xMin;
+		    double yRange = yMax - yMin;
+		    for (int i = 0; i < dimension; i++)
+		    {
+			    for (int j = 0; j < dimension; j++)
+			    {
+				    result[i, j] = Predict(i*xRange/(dimension - 1), j*yRange/(dimension - 1));
+			    }
+		    }
+		    return result;
+	    }
+
+	    public double Variance(double x, double y)
         {
             double[] k = new double[_n];
             for (int i = 0; i < _n; i++)

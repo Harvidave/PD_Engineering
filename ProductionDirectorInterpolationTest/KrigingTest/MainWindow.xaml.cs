@@ -41,18 +41,28 @@ namespace ProductionDirectorInterpolationTest
 			v.Train();
 
 			string result = string.Empty;
-			double xRange = x.Max() - x.Min();
-			double yRange = y.Max() - y.Min();
+			double xRange = x.Max() + 2.0;
+			double yRange = y.Max() + 2.0;
 			int gridDimension = int.Parse(Dimension.Text);
-			for (int i = 0; i < gridDimension; i++)
+			double[,] calculate = v.Calculate(0.0, xRange, 0.0, yRange, gridDimension, CoordinateSystemOrigin.LeftUpper);
+			for (int i = 0; i < Math.Sqrt(calculate.Length); i++)
 			{
-				for (int j = 0; j < gridDimension; j++)
+				for (int j = 0; j < Math.Sqrt(calculate.Length); j++)
 				{
-					result = string.Concat(result, v.Predict(j * xRange / (gridDimension - 1), i * yRange / (gridDimension - 1)),
-						", ");
+
+					result = string.Concat(result, calculate[j, i], ", ");
 				}
 				result = string.Concat(result.Remove(result.Length - 1), Environment.NewLine);
 			}
+			//for (int i = 0; i < gridDimension; i++)
+			//{
+			//	for (int j = 0; j < gridDimension; j++)
+			//	{
+			//		result = string.Concat(result, v.Predict(j * xRange / (gridDimension - 1), i * yRange / (gridDimension - 1)),
+			//			", ");
+			//	}
+			//	result = string.Concat(result.Remove(result.Length - 1), Environment.NewLine);
+			//}
 			string txtFile = string.Format("Result{0}.txt", DateTime.Now.Ticks);
 			File.WriteAllText(txtFile, result);
 			Txt.Text = txtFile;

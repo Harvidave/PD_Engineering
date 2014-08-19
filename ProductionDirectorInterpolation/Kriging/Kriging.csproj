@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoordinateSystemOrigin.cs" />
     <Compile Include="Kriging2D.cs" />
     <Compile Include="KrigingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
