@@ -188,11 +188,24 @@ namespace ProductionDirector.Engineering.Interpolation.Kriging
 		    double[,] result = new double[dimension, dimension];
 		    double xRange = xMax - xMin;
 		    double yRange = yMax - yMin;
-		    for (int i = 0; i < dimension; i++)
+		    if (origin == CoordinateSystemOrigin.LeftUpper)
 		    {
-			    for (int j = 0; j < dimension; j++)
+			    for (int i = 0; i < dimension; i++)
 			    {
-				    result[i, j] = Predict(i*xRange/(dimension - 1), j*yRange/(dimension - 1));
+				    for (int j = 0; j < dimension; j++)
+				    {
+					    result[i, j] = Predict(i*xRange/(dimension - 1), j*yRange/(dimension - 1));
+				    }
+			    }
+		    }
+		    else if (origin == CoordinateSystemOrigin.LeftLower)
+		    {
+			    for (int i = 0; i < dimension; i++)
+			    {
+				    for (int j = dimension - 1; j >= 0; j--)
+				    {
+					    result[i, j] = Predict(i*xRange/(dimension - 1), j*yRange/(dimension - 1));
+				    }
 			    }
 		    }
 		    return result;

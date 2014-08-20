@@ -13,6 +13,7 @@ namespace ProductionDirectorInterpolationTest
 	/// </summary>
 	public partial class MainWindow
 	{
+		private CoordinateSystemOrigin _origin;
 		private KrigingModel _model;
 
 		public MainWindow()
@@ -20,6 +21,7 @@ namespace ProductionDirectorInterpolationTest
 			InitializeComponent();
 
 			Spherical.IsChecked = true;
+			LeftUpper.IsChecked = true;
 		}
 
 		private void CalculateClick(object sender, RoutedEventArgs e)
@@ -41,27 +43,59 @@ namespace ProductionDirectorInterpolationTest
 			v.Train();
 
 			string result = string.Empty;
-			double xRange = x.Max() + 2.0;
-			double yRange = y.Max() + 2.0;
+			double xRange = x.Max();
+			double yRange = y.Max();
 			int gridDimension = int.Parse(Dimension.Text);
-			double[,] calculate = v.Calculate(0.0, xRange, 0.0, yRange, gridDimension, CoordinateSystemOrigin.LeftUpper);
-			for (int i = 0; i < Math.Sqrt(calculate.Length); i++)
+			double[,] calculate;
+			if (_origin == CoordinateSystemOrigin.LeftUpper)
 			{
-				for (int j = 0; j < Math.Sqrt(calculate.Length); j++)
+				calculate = v.Calculate(0.0, xRange, 0.0, yRange, gridDimension, CoordinateSystemOrigin.LeftUpper);
+				for (int i = 0; i < Math.Sqrt(calculate.Length); i++)
 				{
+					for (int j = 0; j < Math.Sqrt(calculate.Length); j++)
+					{
 
-					result = string.Concat(result, calculate[j, i], ", ");
+						result = string.Concat(result, calculate[j, i], ", ");
+					}
+					result = string.Concat(result.Remove(result.Length - 1), Environment.NewLine);
 				}
-				result = string.Concat(result.Remove(result.Length - 1), Environment.NewLine);
 			}
-			//for (int i = 0; i < gridDimension; i++)
+			else if (_origin == CoordinateSystemOrigin.LeftLower)
+			{
+				calculate = v.Calculate(0.0, xRange, 0.0, yRange, gridDimension, CoordinateSystemOrigin.LeftLower);
+				for (int i = (int) Math.Sqrt(calculate.Length) - 1; i >= 0; i--)
+				{
+					for (int j = 0; j < Math.Sqrt(calculate.Length); j++)
+					{
+
+						result = string.Concat(result, calculate[j, i], ", ");
+					}
+					result = string.Concat(result.Remove(result.Length - 1), Environment.NewLine);
+				}
+			}
+			//if (_origin == CoordinateSystemOrigin.LeftUpper)
 			//{
-			//	for (int j = 0; j < gridDimension; j++)
+			//	for (int i = 0; i < gridDimension; i++)
 			//	{
-			//		result = string.Concat(result, v.Predict(j * xRange / (gridDimension - 1), i * yRange / (gridDimension - 1)),
-			//			", ");
+			//		for (int j = 0; j < gridDimension; j++)
+			//		{
+			//			result = string.Concat(result, v.Predict(j*xRange/(gridDimension - 1), i*yRange/(gridDimension - 1)),
+			//				", ");
+			//		}
+			//		result = string.Concat(result.Remove(result.Length - 1), Environment.NewLine);
 			//	}
-			//	result = string.Concat(result.Remove(result.Length - 1), Environment.NewLine);
+			//}
+			//else if (_origin == CoordinateSystemOrigin.LeftLower)
+			//{
+			//	for (int i = gridDimension - 1; i >= 0; i--)
+			//	{
+			//		for (int j = 0; j < gridDimension; j++)
+			//		{
+			//			result = string.Concat(result, v.Predict(j*xRange/(gridDimension - 1), i*yRange/(gridDimension - 1)),
+			//				", ");
+			//		}
+			//		result = string.Concat(result.Remove(result.Length - 1), Environment.NewLine);
+			//	}
 			//}
 			string txtFile = string.Format("Result{0}.txt", DateTime.Now.Ticks);
 			File.WriteAllText(txtFile, result);
@@ -107,6 +141,25 @@ namespace ProductionDirectorInterpolationTest
 		private void OpenExcelClick(object sender, RoutedEventArgs e)
 		{
 			Process.Start(Excel.Text);
+		}
+
+		private void LeftUpperChecked(object sender, RoutedEventArgs e)
+		{
+			SetOrigin(sender);
+		}
+
+		private void LeftLowerChecked(object sender, RoutedEventArgs e)
+		{
+			SetOrigin(sender);
+		}
+
+		private void SetOrigin(object sender)
+		{
+			var radioButton = sender as RadioButton;
+			if (radioButton != null)
+			{
+				_origin = (CoordinateSystemOrigin)Enum.Parse(typeof(CoordinateSystemOrigin), radioButton.Content.ToString());
+			}
 		}
 	}
 }
