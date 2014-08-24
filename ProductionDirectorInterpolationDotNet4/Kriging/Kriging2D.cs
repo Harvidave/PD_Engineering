@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ProductionDirectorInterpolationDotNet4
+namespace ProductionDirector.Engineering.Interpolation.Kriging
 {
 	public class Kriging2D
 	{

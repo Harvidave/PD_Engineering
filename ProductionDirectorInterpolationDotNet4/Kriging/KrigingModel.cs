@@ -1,4 +1,4 @@
-﻿namespace ProductionDirectorInterpolationDotNet4
+﻿namespace ProductionDirector.Engineering.Interpolation.Kriging
 {
 	public enum KrigingModel
 	{

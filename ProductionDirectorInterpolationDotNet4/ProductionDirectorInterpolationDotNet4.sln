@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductionDirectorInterpolationDotNet4", "ProductionDirectorInterpolationDotNet4\ProductionDirectorInterpolationDotNet4.csproj", "{6EFD56A4-6D0A-428A-A477-8A77D9D32708}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kriging", "Kriging\Kriging.csproj", "{6EFD56A4-6D0A-428A-A477-8A77D9D32708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

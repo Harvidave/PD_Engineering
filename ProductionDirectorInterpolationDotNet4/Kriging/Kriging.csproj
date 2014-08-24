@@ -7,8 +7,8 @@
     <ProjectGuid>{6EFD56A4-6D0A-428A-A477-8A77D9D32708}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProductionDirectorInterpolationDotNet4</RootNamespace>
-    <AssemblyName>ProductionDirectorInterpolationDotNet4</AssemblyName>
+    <RootNamespace>ProductionDirector.Engineering.Interpolation.Kriging</RootNamespace>
+    <AssemblyName>ProductionDirector.Engineering.Interpolation.Kriging</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
