@@ -194,7 +194,7 @@ namespace ProductionDirector.Engineering.Interpolation.Kriging
 				{
 					for (int j = 0; j < dimension; j++)
 					{
-						result[i, j] = Predict(i * xRange / (dimension - 1), j * yRange / (dimension - 1));
+						result[i, j] = Predict(xMin + i * xRange / (dimension - 1), yMin + j * yRange / (dimension - 1));
 					}
 				}
 			}
@@ -204,7 +204,7 @@ namespace ProductionDirector.Engineering.Interpolation.Kriging
 				{
 					for (int j = dimension - 1; j >= 0; j--)
 					{
-						result[i, j] = Predict(i * xRange / (dimension - 1), j * yRange / (dimension - 1));
+						result[i, j] = Predict(xMin + i * xRange / (dimension - 1), yMin + j * yRange / (dimension - 1));
 					}
 				}
 			}

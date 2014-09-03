@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kriging", "Kriging\Kriging.csproj", "{6EFD56A4-6D0A-428A-A477-8A77D9D32708}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrigingTest", "KrigingTest\KrigingTest.csproj", "{94B646EE-75CA-4AA1-9DF7-BE641F153C11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6EFD56A4-6D0A-428A-A477-8A77D9D32708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EFD56A4-6D0A-428A-A477-8A77D9D32708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EFD56A4-6D0A-428A-A477-8A77D9D32708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94B646EE-75CA-4AA1-9DF7-BE641F153C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B646EE-75CA-4AA1-9DF7-BE641F153C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B646EE-75CA-4AA1-9DF7-BE641F153C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B646EE-75CA-4AA1-9DF7-BE641F153C11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
